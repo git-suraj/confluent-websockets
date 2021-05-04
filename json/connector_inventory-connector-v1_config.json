@@ -1,0 +1,17 @@
+{
+  "name": "inventory-connector-v1",
+  "config": {
+    "connector.class": "io.debezium.connector.sqlserver.SqlServerConnector",
+    "tasks.max": "1",
+    "transforms": "unwrap,...",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "database.server.name": "serverv1",
+    "database.dbname": "testDB",
+    "database.hostname": "localhost",
+    "database.port": "1433",
+    "database.user": "sa",
+    "database.password": "Password!",
+    "database.history.kafka.bootstrap.servers": "localhost:9092",
+    "database.history.kafka.topic": "schema-changes.inventory"
+  }
+}

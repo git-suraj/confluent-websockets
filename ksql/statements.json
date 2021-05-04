@@ -1,0 +1,3 @@
+{
+    "ksql":"CREATE STREAM RQ_STREAM(key VARCHAR, data VARCHAR) WITH (KAFKA_TOPIC='rq-topic',VALUE_FORMAT='json');CREATE STREAM rsp_stream WITH (KAFKA_TOPIC = 'rsp-topic',VALUE_FORMAT = 'JSON') AS select key, AS_VALUE(key) AS id, 'server-> ' + data as data, 'Y' as approved from RQ_STREAM PARTITION BY key;" 
+}

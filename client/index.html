@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WSS Kafka Subscriber</title>
+        <!--
+            This sample requires Twitter bootstrap for CSS. <http://getbootstrap.com/>,
+        -->
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            let socket = new WebSocket("ws://localhost:8080");
+            socket.onopen = function(e) {
+                logResponse("[open] Connection established to server","success");
+                //socket.send("connection opened from client");
+            };
+            socket.onmessage = function(event) {
+                console.log(`[message] Data received from server: ${event.data}`);
+                logResponse(event.data,"info")
+            };
+            socket.onerror = function(error) {
+                logResponse(`[error] ${error.message}`,"error");
+            };
+
+            function sendMsg(){
+                console.log(document.getElementById("msg").value);
+                socket.send(document.getElementById("msg").value);
+                document.getElementById("msg").value = "";
+            }
+
+            function logResponse(message, type) {
+                $('.log').show();
+                message = $('<div/>').text(message).html();
+                $('#log > tbody > tr:last').after('<tr class="' + type + '"><td>' + message + '</td></tr>');
+            }
+
+            function clearLog() {
+                $('tr.info').remove();
+                $('tr.warning').remove();
+                $('tr.error').remove();
+                $('tr.success').remove();
+                return false;
+             }
+
+        </script> 
+
+        <div class="container">
+            <div class="form-group">
+                <h4>Send message</h4>
+                <div class="column"><input id="msg" type="text"></input></div>
+                
+                <div class="column"><button onclick="sendMsg()" class="btn btn-primary mb-2">Send</button></div>
+
+            </div>
+            <br/><br/>
+            <div class="form-group">
+                <h4>Response</h4>
+                <a class='close log' id="clearLogButton" onclick="clearLog()">x</a>
+                <table id='log' class='wide table table-bordered table-striped log'>
+                    <tr><th align='center'>Log</th></tr>
+                    <tbody id='logbody'></tbody>
+                </table>
+            </div>
+        </div>
+
+    </body>
+</html>

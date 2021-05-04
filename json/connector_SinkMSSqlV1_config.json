@@ -1,0 +1,14 @@
+{
+  "name": "SinkMSSqlV7",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "topics": "serverv1.dbo.customers",
+    "connection.url": "jdbc:sqlserver://localhost:1433;databaseName=testDB",
+    "connection.user": "sa",
+    "connection.password": "Password!",
+    "insert.mode": "UPSERT",
+    "table.name.format": "customers_repv1",
+    "pk.mode": "record_key",
+    "auto.create": true
+  }
+}
